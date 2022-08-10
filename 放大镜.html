@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .all {
+        width: 600px;
+        height: 600px;
+
+        margin: 50px 300px;
+        position: relative;
+    }
+
+    .all .firstBox {
+        width: 350px;
+        height: 350px;
+        border: 1px solid red;
+        position: absolute;
+    }
+
+    .all .firstBox img {
+        width: 350px;
+        height: 350px;
+    }
+
+    .all .firstBox span {
+        position: absolute;
+        width: 110px;
+        height: 110px;
+        background: rgba(200, 200, 200, 0.6);
+        left: 0;
+        top: 0;
+        cursor: move;
+        display: none;
+    }
+
+    .all .bigBox {
+        width: 350px;
+        height: 350px;
+        border: 1px solid;
+        position: absolute;
+        left: 500px;
+        top: 0;
+        overflow: hidden;
+        display: none;
+    }
+
+    .all .bigBox img {
+        width: 700px;
+        height: 700px;
+        position: absolute;
+    }
+
+    .all .third {
+        position: absolute;
+        top: 360px;
+        padding-left: -10px;
+    }
+
+    .all .third div {
+        border: 1px solid #000;
+        width: 60px;
+        height: 40px;
+        float: left;
+        margin: 0 auto;
+        margin: 4px;
+    }
+
+    .all .third div img {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+</html>
+
+<body>
+    <div class="all">
+        <div class="firstBox">
+            <img src="images/nature-1.jpg" alt="" class="firstPic">
+            <span></span>
+        </div>
+        <div class="bigBox">
+            <img src="images/nature-1.jpg" alt="" class="bigPic">
+        </div>
+        <div class="third">
+            <div class="box1"><img src="images/nature-1.jpg" alt=""></div>
+            <div class="box2"><img src="images/nature-2.jpg" alt=""></div>
+            <div class="box3"><img src="images/nature-3.jpg" alt=""></div>
+            <div class="box4"><img src="images/nature-4.jpg" alt=""></div>
+            <div class="box5"><img src="images/nature-5.jpg" alt=""></div>
+        </div>
+    </div>
+    <script>
+        class Zoom {
+            constructor(ele1, ele2, ele3, ele4, ele5) {
+                this.all = document.querySelector(ele1)
+                this.firstBox = document.querySelector(ele2)
+                this.mask = document.querySelector(ele3)
+                this.bigBox = document.querySelector(ele4)
+                this.Pic = document.querySelector(ele5)
+                this.init()
+            }
+            init() {
+                this.over()
+                this.out()
+                this.move()
+            }
+
+            over() {
+                this.firstBox.onmouseover = () => {
+                    this.mask.style.display = 'block'
+                    this.bigBox.style.display = 'block'
+                }
+            }
+            out() {
+                this.firstBox.onmouseout = () => {
+                    this.mask.style.display = 'none'
+                    this.bigBox.style.display = 'none'
+                }
+            }
+            move() {
+                this.firstBox.onmousemove = (e) => {
+                    let x = e.clientX - this.all.offsetLeft - this.mask.offsetWidth / 2
+                    let y = e.clientY - this.all.offsetTop - this.mask.offsetHeight / 2
+                    if (x < 0) {
+                        x = 0
+                    } else if (x >= this.firstBox.offsetWidth - this.mask.offsetWidth) {
+                        x = this.firstBox.offsetWidth - this.mask.offsetWidth
+                    }
+                    if (y < 0) {
+                        y = 0
+                    } else if (y >= this.firstBox.offsetHeight - this.mask.offsetHeight) {
+                        y = this.firstBox.offsetHeight - this.mask.offsetHeight
+                    }
+                    this.mask.style.left = x + 'px'
+                    this.mask.style.top = y + 'px'
+                    let w = x / (this.firstBox.offsetWidth - this.mask.offsetWidth)
+                    let h = y / (this.firstBox.offsetHeight - this.mask.offsetHeight)
+                    this.Pic.style.left = -w * (this.Pic.offsetWidth - this.bigBox.offsetWidth) + 'px'
+                    this.Pic.style.top = -h * (this.Pic.offsetHeight - this.bigBox.offsetHeight) + 'px'
+                }
+            }
+        }
+        new Zoom('.all', '.firstBox', '.firstBox>span', '.bigBox', '.bigBox>img')
+        // 放大镜
+        let arrPic = ['images/nature-1.jpg', 'images/nature-2.jpg', 'images/nature-3.jpg', 'images/nature-4.jpg',
+            'images/nature-5.jpg'
+        ]
+        let arrBox=['.box1','.box2']
+        let pic1 = document.querySelector('.firstPic')
+        let pic2 = document.querySelector('.bigPic')
+        // let box=document.querySelectorAll('')
+        let box1 = document.querySelector('.box1')
+        let box2 = document.querySelector('.box2')
+        let box3 = document.querySelector('.box3')
+        let box4 = document.querySelector('.box4')
+        let box5 = document.querySelector('.box5')
+        box1.onclick = () => {
+            pic1.src = arrPic[0]
+            pic2.src = arrPic[0]
+        }
+        box2.onclick = () => {
+            pic1.src = arrPic[1]
+            pic2.src = arrPic[1]
+        }
+        box3.onclick = () => {
+            pic1.src = arrPic[2]
+            pic2.src = arrPic[2]
+        }
+        box4.onclick = () => {
+            pic1.src = arrPic[3]
+            pic2.src = arrPic[3]
+        }
+        box5.onclick = () => {
+            pic1.src = arrPic[4]
+            pic2.src = arrPic[4]
+        }
+        // for (y=1;y<=arrBox.length;y++){
+            
+        //     for(x=0;x<=arrBox.length-1;x++){            
+        //     pic1.src = arrPic[x]
+        //     pic2.src = arrPic[x]        
+        //  }
+        // }
+    </script>
+</body>
+
+</html>
